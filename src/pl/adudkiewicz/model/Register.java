@@ -23,7 +23,7 @@ public class Register
 	private int year;
 	private int month;
 	
-	@OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(cascade=CascadeType.DETACH, orphanRemoval=true, fetch=FetchType.EAGER)
 	@JoinColumn(name="registerId")
 	private List<RegisterEntry> registrations= new ArrayList<>();
 

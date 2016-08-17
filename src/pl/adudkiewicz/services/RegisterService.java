@@ -1,76 +1,57 @@
 package pl.adudkiewicz.services;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import pl.adudkiewicz.model.InvoiceType;
 import pl.adudkiewicz.model.Register;
-import pl.adudkiewicz.model.RegisterEntry;
-import pl.adudkiewicz.model.RegisterEntryRequest;
-import pl.adudkiewicz.model.Wholesaler;
 import pl.adudkiewicz.repositories.RegisterEntryRepository;
-import pl.adudkiewicz.repositories.RegistersRepository;
-import pl.adudkiewicz.repositories.WholesalersRepository;
+import pl.adudkiewicz.repositories.RegisterRepository;
 
 @Service
 public class RegisterService
 {
 	@Autowired
-	RegistersRepository	  registersRepository;
+	RegisterRepository		registerRepository;
 	@Autowired
 	RegisterEntryRepository	registerEntryRepository;
 	@Autowired
-	WholesalersRepository wholesalersRepository;
+	WholesalerService		wholesalerService;
 	@Autowired
-	ValidationService	  validationService;
+	ValidationService		validationService;
 
-	public Register getByMonthAndYear(int month, int year)
+	public Register getRegister(int year,int month)
 	{
 
-		return registersRepository.findByYearAndMonth(year, month); 
-		
+		return registerRepository.findByYearAndMonth(year, month);
+		 
 	}
 	
 
-	private Wholesaler getWholesalerById(String id)
+	public Register saveRegister(int year,int month)
 	{
-		long corerctId = Long.valueOf(id);
-		return wholesalersRepository.findOne(corerctId);
-		
+	    boolean yearRange=year>2000 && year<2100;
+	    boolean monthRange=month>0 && month<13;
+	    if(yearRange&&monthRange)
+	    {
+	        Register register= new Register();
+	        register.setYear(year);
+	        register.setMonth(month);
+	        return registerRepository.save(register);
+	    }
+	    else 
+	        return null;
 	}
-
-	public RegisterEntry save(RegisterEntryRequest registerEntryRequest)
+	
+	
+	public String deleteRegister(int year,int month)
 	{
-		RegisterEntry registerEntry = new RegisterEntry();
-		if (validationService.validateDates(registerEntryRequest.getInvoiceDate(), registerEntryRequest.getReceivedDate())
-		        && validationService.validateType(registerEntryRequest.getType(), InvoiceType.class))
-
+		Register register = getRegister(year,month);
+		if (register!=null)
 		{
-			registerEntry.setInvoiceDate(LocalDate.parse(registerEntryRequest.getInvoiceDate()));
-			registerEntry.setReceivedDate(LocalDate.parse(registerEntryRequest.getInvoiceDate()));
-			registerEntry.setInvoiceNumber(registerEntryRequest.getInvoiceNumber());
-
-			registerEntry.setNet23(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getNet23())));
-			registerEntry.setNet8(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getNet8())));
-			registerEntry.setNet5(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getNet5())));
-			registerEntry.setVat0(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getVat0())));
-			registerEntry.setVat8(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getVat8())));
-			registerEntry.setVat5(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getVat5())));
-			registerEntry.setVat23(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getVat23())));
-
-			registerEntry.setType(InvoiceType.valueOf(registerEntryRequest.getType()));
-			registerEntry.setWholesaler(getWholesalerById(registerEntryRequest.getWholesaler()));
-			Register register = registersRepository.findOne((long)registerEntryRequest.getRegisterId());
-			registerEntry.setRegister(register);
-			
-
-			return registerEntryRepository.save(registerEntry);
-
+			registerRepository.delete(register);
+			return "Register: " + register.getId() + " is deleted";
 		}
-		return null;
+		else
+			return null;
 	}
 
 }

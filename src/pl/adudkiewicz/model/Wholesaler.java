@@ -2,20 +2,22 @@ package pl.adudkiewicz.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity(name="Wholesalers")
+@Entity
+@Table(name="Wholesalers")
 public class Wholesaler
 {
 	@Id
-	private long id;
+	private String nip;
 	private String name;
-	public long getId()
+	public String getNip()
 	{
-		return id;
+		return nip;
 	}
-	public void setId(long id)
+	public void setNip(String nip)
 	{
-		this.id = id;
+		this.nip = nip;
 	}
 	public String getName()
 	{

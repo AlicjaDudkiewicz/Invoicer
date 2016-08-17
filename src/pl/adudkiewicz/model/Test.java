@@ -28,12 +28,7 @@ public class Test
 	registration2.setInvoiceDate(LocalDate.of(2015, 12, 22));
 	registration2.setInvoiceNumber("1254grfg");
 	
-	Wholesaler wholesaler1= new Wholesaler();
-	wholesaler1.setId(12342);
-	wholesaler1.setName("Jajcowo");
 	
-	registration.setWholesaler(wholesaler1);
-	registration2.setWholesaler(wholesaler1);
 	
 	
 	List<RegisterEntry> registrations = new ArrayList<>();
