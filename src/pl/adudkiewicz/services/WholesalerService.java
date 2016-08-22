@@ -46,4 +46,9 @@ public class WholesalerService
 
     }
 
+    public ArrayList<Wholesaler> getList()
+    {
+        return wholesalersRepository.findAll();
+    }
+
 }

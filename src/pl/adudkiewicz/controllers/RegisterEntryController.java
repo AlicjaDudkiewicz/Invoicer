@@ -42,7 +42,7 @@ public class RegisterEntryController
                                                                                             // blad??
 
     }
-    
+    //dziala
     @DeleteMapping(value = "{id}")
     public ResponseEntity<String> delete(@PathVariable("id") long id)
     {

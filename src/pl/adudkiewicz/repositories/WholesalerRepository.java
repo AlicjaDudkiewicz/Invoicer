@@ -7,5 +7,6 @@ import pl.adudkiewicz.model.Wholesaler;
 
 public interface WholesalerRepository extends CrudRepository<Wholesaler, String>
 {
-	public ArrayList<Wholesaler> findByNipContaining(String nip);
+    public ArrayList<Wholesaler> findByNipContaining(String nip);
+    public ArrayList<Wholesaler> findAll();
 }

@@ -21,6 +21,7 @@ public class RegisterController
     @Autowired
     RegisterService registerService;
 
+    //dziala
     @GetMapping(value = "{year}/{month}")
     public ResponseEntity<Register> get(@PathVariable("year") int year,
             @PathVariable("month") int month)
@@ -34,7 +35,7 @@ public class RegisterController
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NOT_FOUND);
         }
     }
-
+    //dziala
     @PostMapping(value = "{year}/{month}")
     public ResponseEntity<Register> save(@PathVariable("year") int year,
             @PathVariable("month") int month)
@@ -48,7 +49,8 @@ public class RegisterController
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-
+    
+    //dziala
     @DeleteMapping(value = "{year}/{month}")
     public ResponseEntity<String> delete(@PathVariable("year") int year,
             @PathVariable("month") int month)

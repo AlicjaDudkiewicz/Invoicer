@@ -26,6 +26,20 @@ public class WholesalerController
     @Autowired
     WholesalerService wholesalerService;
 
+    // dziala
+    @GetMapping
+    public ResponseEntity<ArrayList<Wholesaler>> getList()
+    {
+        ArrayList<Wholesaler> result = wholesalerService.getList();
+        if (result != null)
+        {
+            return new ResponseEntity<ArrayList<Wholesaler>>(result, new HttpHeaders(),
+                    HttpStatus.OK);
+        } else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    // dziala
     @PostMapping
     public ResponseEntity<Wholesaler> save(@RequestBody @Valid Wholesaler wholesaler)
     {
@@ -39,6 +53,7 @@ public class WholesalerController
 
     }
 
+    // dziala
     @GetMapping(value = "{nip}")
     public ResponseEntity<ArrayList<Wholesaler>> getWholesalerListByNip(
             @PathVariable("nip") String nip)
@@ -47,6 +62,7 @@ public class WholesalerController
                 new HttpHeaders(), HttpStatus.OK);
     }
 
+    // dziala
     @DeleteMapping(value = "{nip}")
     public ResponseEntity<String> deleteWholesaler(@PathVariable("nip") String nip)
     {
