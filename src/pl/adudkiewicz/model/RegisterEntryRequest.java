@@ -13,7 +13,7 @@ public class RegisterEntryRequest
 	private String vat8;
 	private String net5;
 	private String vat5;
-	private String vat0;
+	private String net0;
 	private String wholesaler;
 	
 	public Integer getRegisterId()
@@ -104,13 +104,13 @@ public class RegisterEntryRequest
 	{
 		this.vat5 = vat5;
 	}
-	public String getVat0()
+	public String getNet0()
 	{
-		return vat0;
+		return net0;
 	}
-	public void setVat0(String vat0)
+	public void setNet0(String net0)
 	{
-		this.vat0 = vat0;
+		this.net0 = net0;
 	}
 	public String getWholesaler()
 	{
@@ -125,7 +125,7 @@ public class RegisterEntryRequest
 	{
 		return "RegisterEntryRequest [registerId=" + registerId + ", type=" + type + ", receivedDate=" + receivedDate + ", invoiceDate=" + invoiceDate
 		        + ", invoiceNumber=" + invoiceNumber + ", net23=" + net23 + ", vat23=" + vat23 + ", net8=" + net8 + ", vat8=" + vat8 + ", net5=" + net5
-		        + ", vat5=" + vat5 + ", vat0=" + vat0 + ", wholesaler=" + wholesaler + "]";
+		        + ", vat5=" + vat5 + ", vat0=" + net0 + ", wholesaler=" + wholesaler + "]";
 	}
 	
 	

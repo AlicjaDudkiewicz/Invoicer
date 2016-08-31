@@ -28,10 +28,13 @@ public class RegisterEntryService
     public RegisterEntry save(RegisterEntryRequest registerEntryRequest)
     {
         RegisterEntry registerEntry = new RegisterEntry();
-        if (validationService.validateDates(registerEntryRequest.getInvoiceDate(),
-                registerEntryRequest.getReceivedDate())
-                && validationService.validateType(registerEntryRequest.getType(),
-                        InvoiceType.class))
+        return create(registerEntryRequest, registerEntry);
+    }
+
+    private RegisterEntry create(RegisterEntryRequest registerEntryRequest,
+            RegisterEntry registerEntry)
+    {
+        if (validateData(registerEntryRequest))
 
         {
             registerEntry.setInvoiceDate(LocalDate.parse(registerEntryRequest.getInvoiceDate()));
@@ -45,7 +48,7 @@ public class RegisterEntryService
             registerEntry
                     .setNet5(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getNet5())));
             registerEntry
-                    .setVat0(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getVat0())));
+                    .setNet0(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getNet0())));
             registerEntry
                     .setVat8(BigDecimal.valueOf(Double.valueOf(registerEntryRequest.getVat8())));
             registerEntry
@@ -68,6 +71,22 @@ public class RegisterEntryService
         return null;
     }
 
+    private boolean validateData(RegisterEntryRequest registerEntryRequest)
+    {
+        return validationService.validateDates(registerEntryRequest.getInvoiceDate(),
+                registerEntryRequest.getReceivedDate())
+                && validationService.validateType(registerEntryRequest.getType(),
+                        InvoiceType.class);
+    }
+
+    public RegisterEntry edit(RegisterEntryRequest registerEntryRequest, long id)
+    {
+        RegisterEntry registerEntry = new RegisterEntry();
+        registerEntry.setId(id);
+        return create(registerEntryRequest, registerEntry);
+
+    }
+
     public String delete(long id)
     {
         if (registerEntryRepository.exists(id))
@@ -79,4 +98,5 @@ public class RegisterEntryService
             return null;
         }
     }
+    
 }

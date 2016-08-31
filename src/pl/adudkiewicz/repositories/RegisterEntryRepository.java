@@ -8,6 +8,6 @@ import pl.adudkiewicz.model.RegisterEntry;
 @Repository
 public interface RegisterEntryRepository extends CrudRepository<RegisterEntry, Long>
 {
-	
-	
+
+
 }

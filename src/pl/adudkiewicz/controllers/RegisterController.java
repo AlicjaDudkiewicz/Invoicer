@@ -1,5 +1,7 @@
 package pl.adudkiewicz.controllers;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,7 @@ public class RegisterController
     @Autowired
     RegisterService registerService;
 
-    //dziala
+    // dziala
     @GetMapping(value = "{year}/{month}")
     public ResponseEntity<Register> get(@PathVariable("year") int year,
             @PathVariable("month") int month)
@@ -35,7 +37,21 @@ public class RegisterController
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.NOT_FOUND);
         }
     }
+
     //dziala
+    @GetMapping
+    public ResponseEntity<ArrayList<Register>> get()
+    {
+        ArrayList<Register> result = registerService.getList();
+        if (result != null)
+        {
+            return new ResponseEntity<ArrayList<Register>>(result, new HttpHeaders(),
+                    HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    // dziala
     @PostMapping(value = "{year}/{month}")
     public ResponseEntity<Register> save(@PathVariable("year") int year,
             @PathVariable("month") int month)
@@ -49,14 +65,14 @@ public class RegisterController
             return new ResponseEntity<>(new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-    
-    //dziala
+
+    // dziala
     @DeleteMapping(value = "{year}/{month}")
     public ResponseEntity<String> delete(@PathVariable("year") int year,
             @PathVariable("month") int month)
     {
 
-        String result = registerService.deleteRegister(year,month);
+        String result = registerService.deleteRegister(year, month);
         if (result != null)
         {
             return new ResponseEntity<String>(result, new HttpHeaders(), HttpStatus.OK);

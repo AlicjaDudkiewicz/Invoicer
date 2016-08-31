@@ -1,48 +1,46 @@
 package pl.adudkiewicz.model;
 
-import java.time.LocalDate;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 public class Test
 {
-	public static void main(String[] args)
-	{
-	
-	EntityManagerFactory entityManagerFactory= Persistence.createEntityManagerFactory("InvoicerDatabase");
-	EntityManager entityManager= entityManagerFactory.createEntityManager();
-	
-	Register register= new Register();
-	register.setMonth(1);
-	register.setYear(2016);
-	
-	RegisterEntry registration= new RegisterEntry();
-	registration.setInvoiceDate(LocalDate.of(2015, 12, 20));
-	registration.setInvoiceNumber("1254");
-	
-	RegisterEntry registration2= new RegisterEntry();
-	registration2.setInvoiceDate(LocalDate.of(2015, 12, 22));
-	registration2.setInvoiceNumber("1254grfg");
-	
-	
-	
-	
-	List<RegisterEntry> registrations = new ArrayList<>();
-	registrations.add(registration);
-	registrations.add(registration2);
-	
-	register.setRegistrations(registrations);
 
-	entityManager.getTransaction().begin();
-	
-	entityManager.persist(register);
-	entityManager.getTransaction().commit();
-	
-	entityManager.close();
-	entityManagerFactory.close();
-	}
+    private static final BigDecimal TOLERANCE = BigDecimal.valueOf(0.002);
+
+    public static void main(String[] args) throws IOException
+    {
+        List<RegisterEntry> registerEntries = new ArrayList<RegisterEntry>();
+        RegisterEntry r1 = new RegisterEntry();
+        RegisterEntry r2 = new RegisterEntry();
+        RegisterEntry r3 = new RegisterEntry();
+
+        r1.setNet0(BigDecimal.valueOf(10));
+        r1.setType(InvoiceType.G);
+        r2.setNet23(BigDecimal.valueOf(10));
+        r2.setType(InvoiceType.G);
+        r3.setNet5(BigDecimal.valueOf(10));
+        r3.setType(InvoiceType.G);
+
+        registerEntries.add(r1);
+        registerEntries.add(r2);
+        registerEntries.add(r3);
+
+        BigDecimal totalSum = getTotalSum(registerEntries, InvoiceType.G);
+        System.out.println(totalSum);
+    }
+
+    public static BigDecimal getTotalSum(List<RegisterEntry> registerEntries, InvoiceType type)
+    {
+
+       return registerEntries.stream().filter(r -> r.getType().equals(type)).map((r) -> r.getNetSum())
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+      
+
+    }
+
 }
