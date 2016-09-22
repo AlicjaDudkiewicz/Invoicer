@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import pl.adudkiewicz.services.ValidationService;
 
 @RestController
 @RequestMapping(value = "registerEntry")
+@CrossOrigin("*")
 public class RegisterEntryController
 {
     @Autowired
@@ -28,9 +30,8 @@ public class RegisterEntryController
     @Autowired
     ValidationService validationService;
 
-    // dziala
     @PostMapping
-    public ResponseEntity<RegisterEntry> save(
+    public ResponseEntity<RegisterEntry> addRegisterEntry(
             @RequestBody @Valid RegisterEntryRequest registerEntryRequest)
     {
 
@@ -40,19 +41,12 @@ public class RegisterEntryController
             return new ResponseEntity<RegisterEntry>(registerEntry, new HttpHeaders(),
                     HttpStatus.CREATED);
         } else
-            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);// info
-                                                                                            // co
-                                                                                            // spowodowalo
-                                                                                            // blad??jak
-                                                                                            // dac
-                                                                                            // tu
-                                                                                            // stringa
+            return new ResponseEntity<>(new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY);
 
     }
 
-    // dziala
     @PutMapping(value = "{id}")
-    public ResponseEntity<RegisterEntry> edit(
+    public ResponseEntity<RegisterEntry> editRegisterEntry(
             @RequestBody @Valid RegisterEntryRequest registerEntryRequest,
             @PathVariable("id") long id)
     {
@@ -65,9 +59,8 @@ public class RegisterEntryController
 
     }
 
-    // dziala
     @DeleteMapping(value = "{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") long id)
+    public ResponseEntity<String> deleteRegisterEntry(@PathVariable("id") long id)
     {
         String result = registerEntryService.delete(id);
         if (result != null)
@@ -82,7 +75,7 @@ public class RegisterEntryController
         }
     }
 
-    @PostMapping(value="validate")
+    @PostMapping(value = "validate")
     public ResponseEntity<String> validateVat(
             @RequestBody @Valid RegisterEntryRequest registerEntryRequest)
     {

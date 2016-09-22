@@ -1,4 +1,4 @@
-    package pl.adudkiewicz.controllers;
+package pl.adudkiewicz.controllers;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,14 +22,14 @@ import pl.adudkiewicz.services.WholesalerService;
 
 @RestController
 @RequestMapping(value = "wholesaler")
+@CrossOrigin("*")
 public class WholesalerController
 {
     @Autowired
     WholesalerService wholesalerService;
 
-    // dziala
     @GetMapping
-    public ResponseEntity<ArrayList<Wholesaler>> getList()
+    public ResponseEntity<ArrayList<Wholesaler>> getWholesalerList()
     {
         ArrayList<Wholesaler> result = wholesalerService.getList();
         if (result != null)
@@ -39,9 +40,8 @@ public class WholesalerController
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // dziala
     @PostMapping
-    public ResponseEntity<Wholesaler> save(@RequestBody @Valid Wholesaler wholesaler)
+    public ResponseEntity<Wholesaler> addWholesaler(@RequestBody @Valid Wholesaler wholesaler)
     {
         Wholesaler result = wholesalerService.save(wholesaler);
         if (result != null)
@@ -53,7 +53,6 @@ public class WholesalerController
 
     }
 
-    // dziala
     @GetMapping(value = "{nip}")
     public ResponseEntity<ArrayList<Wholesaler>> getWholesalerListByNip(
             @PathVariable("nip") String nip)
@@ -62,7 +61,6 @@ public class WholesalerController
                 new HttpHeaders(), HttpStatus.OK);
     }
 
-    // dziala
     @DeleteMapping(value = "{nip}")
     public ResponseEntity<String> deleteWholesaler(@PathVariable("nip") String nip)
     {

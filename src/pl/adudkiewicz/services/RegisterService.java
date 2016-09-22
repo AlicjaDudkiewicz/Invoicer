@@ -1,11 +1,13 @@
 package pl.adudkiewicz.services;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.adudkiewicz.model.Register;
+import pl.adudkiewicz.model.RegisterEntry;
 import pl.adudkiewicz.repositories.RegisterRepository;
 
 @Service
@@ -18,6 +20,13 @@ public class RegisterService
     {
 
         return registerRepository.findByYearAndMonth(year, month);
+
+    }
+
+    public List<RegisterEntry> getRegisterEntries(int year, int month)
+    {
+        Register register = registerRepository.findByYearAndMonth(year, month);
+        return register.getRegistrations();
 
     }
 
@@ -46,7 +55,7 @@ public class RegisterService
         if (register != null)
         {
             registerRepository.delete(register);
-            return "Register: " + register.getId() + " is deleted";
+            return "Register: " + register.getId() + " has been deleted";
         } else
             return null;
     }

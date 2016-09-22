@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Registers")
 public class Register 
@@ -25,6 +27,7 @@ public class Register
 	
 	@OneToMany(cascade=CascadeType.DETACH, orphanRemoval=true, fetch=FetchType.EAGER)
 	@JoinColumn(name="registerId")
+	@JsonIgnore
 	private List<RegisterEntry> registrations= new ArrayList<>();
 
 	public long getId()

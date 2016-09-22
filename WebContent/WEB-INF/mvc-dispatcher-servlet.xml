@@ -10,12 +10,12 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/data/jpa 
-        http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd" >
+        http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd">
 
 	<context:component-scan base-package="pl.adudkiewicz" />
 
 	<mvc:annotation-driven />
-	<jpa:repositories base-package="pl.adudkiewicz"/>
+	<jpa:repositories base-package="pl.adudkiewicz" />
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
