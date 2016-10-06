@@ -96,5 +96,6 @@ public class RegisterController
                     new HttpHeaders(), HttpStatus.NOT_FOUND);
         }
     }
+    
 
 }

@@ -3,6 +3,8 @@ package pl.adudkiewicz.services;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,9 @@ public class RegisterEntryService
     WholesalerService wholesalerService;
     @Autowired
     ValidationService validationService;
+    
+    private static final Logger log = LoggerFactory.getLogger(RegisterEntryService.class);
+
 
     public RegisterEntry save(RegisterEntryRequest registerEntryRequest)
     {
@@ -63,11 +68,15 @@ public class RegisterEntryService
                     .findOne((long) registerEntryRequest.getRegisterId());
             if (result != null)
             {
+                
                 registerEntry.setRegister(result);
+                log.info("Register entry" + registerEntry.getId() + "has saved");
                 return registerEntryRepository.save(registerEntry);
+                
             }
 
         }
+        log.warn("Register entry" + registerEntry.getId()+ "saved operation has failed");
         return null;
     }
 
@@ -92,9 +101,11 @@ public class RegisterEntryService
         if (registerEntryRepository.exists(id))
         {
             registerEntryRepository.delete(id);
-            return "Register entry: " + id + " has been deleted";
+            log.info("Register entry: " + id + " has been deleted");
+            return "OK";
         } else
         {
+            log.warn("Register entry: " + id + "delete operation has failed");
             return null;
         }
     }

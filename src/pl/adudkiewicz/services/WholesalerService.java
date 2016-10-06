@@ -33,7 +33,8 @@ public class WholesalerService
         if (wholesalersRepository.exists(nip))
         {
             wholesalersRepository.delete(nip);
-            return "Wholesaler: " + nip + " has been deleted.";
+            
+            return "OK";
         }
         return null;
     }

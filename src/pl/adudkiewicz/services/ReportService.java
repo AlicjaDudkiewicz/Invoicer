@@ -8,6 +8,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ public class ReportService
     RegisterEntryRepository registerEntryRepository;
     @Autowired
     RegisterRepository registerRepository;
+
+    private static final Logger log = LoggerFactory.getLogger(ReportService.class);
 
     public Workbook createReport(int year, int month)
     {
@@ -63,12 +67,16 @@ public class ReportService
                 registerCounter++;
 
             }
+            log.info("Report for: " + register.getYear() + "/" + register.getMonth()
+                    + " has been created successfully.");
             return workbookRegister;
 
         } catch (IOException e)
         {
             e.printStackTrace();
         }
+        log.warn("Report generate operaton for: " + register.getYear() + "/" + register.getMonth()
+        + " has been failed");
         return null;
 
     }
